@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
-class Lightswitch extends React.Component {
+import '../styles/Lightswitch.css';
+
+class Lightswitch extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +22,7 @@ class Lightswitch extends React.Component {
 
     render() {
         return (
-            <input type="checkbox" value="Hello" onClick={this.clicked} checked={this.state.checked} />
+            <div className="lightswitch" onClick={this.clicked}></div>
         );
     }
 }
