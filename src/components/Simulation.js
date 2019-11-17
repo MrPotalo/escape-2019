@@ -10,6 +10,7 @@ const START_RAND = 200;
 const VELOCITY_RAND = 3;
 const SPACING = 5
 const START_DELAY = 50;
+const AREA_SIZE = { x: 1200, y: 800 };
 
 class Simulation extends Component {
     constructor(props) {
@@ -17,7 +18,6 @@ class Simulation extends Component {
         const totalBalls = _.reduce(this.props.balls, (count, curr) => {
             return count + curr;
         });
-        const START_DELAY = 50;
         const tmp = _.range(START_DELAY, totalBalls * SPACING + START_DELAY + 1, SPACING);
         const delays = _.shuffle(tmp);
         let number = 1;
@@ -54,6 +54,9 @@ class Simulation extends Component {
         return (
             <div id="ballHolder">
                 {_.map(this.state.balls, (ball, i) => {
+                    if (ball.position.x < -50 || ball.position.y < -50 || ball.position.y > AREA_SIZE.y + 50 || ball.position.x > AREA_SIZE.x + 50) {
+                        return null;
+                    }
                     return <div key={i} className={"ball " + ball.color} style={{
                         left: ball.position.x,
                         top: ball.position.y
