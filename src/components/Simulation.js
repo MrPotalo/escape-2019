@@ -4,13 +4,14 @@ import _ from 'lodash';
 
 import '../styles/Simulation.css';
 
-const GRAVITY = 0.3;
+const GRAVITY = 0.5;
 const START_OFFSET = { x: 600, y: -100 };
 const START_RAND = 200;
-const VELOCITY_RAND = 3;
-const SPACING = 5
-const START_DELAY = 50;
+const VELOCITY_RAND = 5;
+const SPACING = 4
+const START_DELAY = 25;
 const AREA_SIZE = { x: 1200, y: 800 };
+const FPS = 50;
 
 class Simulation extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class Simulation extends Component {
                 });
                 return newState;
             })
-        }, 10);
+        }, 1000/FPS);
     }
 
     render() {
