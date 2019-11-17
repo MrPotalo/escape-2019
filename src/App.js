@@ -3,14 +3,15 @@ import _ from 'lodash';
 import './App.css';
 
 import Simulation from './components/Simulation';
-import Number from './components/Number';
 
 const balls = 
 {
-  red: 5,
+  red: 6,
   blue: 7,
-  green: 3,
-  purple: 6
+  green: 8,
+  purple: 3,
+  orange: 12,
+  black: 23
 }
 
 class App extends Component {
