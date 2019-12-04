@@ -1,11 +1,27 @@
 #ballHolder {
-    height: 800px;
+    height: calc(100vh - 50px);
     width: 1200px;
     border: 1px solid black;
     margin-left: 10px;
     margin-top: 5px;
     position: relative;
     overflow: hidden;
+}
+
+.button {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 100px;
+    margin-left: 10px;
+    margin-top: 5px;
+    background-color: #03d;
+    color: #fff;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: #05b;
 }
 
 .ball {

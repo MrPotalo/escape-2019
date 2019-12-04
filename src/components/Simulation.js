@@ -16,13 +16,18 @@ const FPS = 50;
 class Simulation extends Component {
     constructor(props) {
         super(props);
+        
+        this.state = this.getStartState();
+    }
+
+    getStartState = () => {
         const totalBalls = _.reduce(this.props.balls, (count, curr) => {
             return count + curr;
         });
         const tmp = _.range(START_DELAY, totalBalls * SPACING + START_DELAY + 1, SPACING);
         const delays = _.shuffle(tmp);
         let number = 1;
-        this.state = {
+        return {
             time: 0,
             balls: _.reduce(this.props.balls, (arr, count, color) => {
                 for (let i = 0; i < count; i++) {
@@ -52,7 +57,7 @@ class Simulation extends Component {
     }
 
     render() {
-        return (
+        return [
             <div id="ballHolder">
                 {_.map(this.state.balls, (ball, i) => {
                     if (ball.position.x < -50 || ball.position.y < -50 || ball.position.y > AREA_SIZE.y + 50 || ball.position.x > AREA_SIZE.x + 50) {
@@ -63,8 +68,9 @@ class Simulation extends Component {
                         top: ball.position.y
                     }} ></div>
                 })}
-            </div>
-        );
+            </div>,
+            <div className="button" onClick={() => this.setState(this.getStartState)}>{'Reset'}</div>
+        ];
     }
 }
 
