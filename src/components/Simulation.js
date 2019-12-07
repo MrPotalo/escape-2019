@@ -5,12 +5,11 @@ import _ from 'lodash';
 import '../styles/Simulation.css';
 
 const GRAVITY = 0.5;
-const START_OFFSET = { x: 600, y: -100 };
+const START_OFFSET = { y: -100 };
 const START_RAND = 200;
 const VELOCITY_RAND = 5;
 const SPACING = 4
 const START_DELAY = 25;
-const AREA_SIZE = { x: 1200, y: 800 };
 const FPS = 50;
 
 class Simulation extends Component {
@@ -22,7 +21,6 @@ class Simulation extends Component {
     }
 
     getStartState = () => {
-        console.log(this.screen);
         const totalBalls = _.reduce(this.props.balls, (count, curr) => {
             return count + curr;
         });
@@ -33,7 +31,7 @@ class Simulation extends Component {
             time: 0,
             balls: _.reduce(this.props.balls, (arr, count, color) => {
                 for (let i = 0; i < count; i++) {
-                    arr.push({ position: { x: (this.screen.current.offsetWidth / 2 - 25) + (Math.random() - 0.5) * START_RAND * 2, y: START_OFFSET.y }, velocity: { x: (Math.random() - 0.5) * VELOCITY_RAND * 2, y: 0 }, color, delay: delays[arr.length], text: i === 0 ? number++ : null });
+                    arr.push({ position: { x: (Math.random() - 0.5) * START_RAND * 2, y: START_OFFSET.y }, velocity: { x: (Math.random() - 0.5) * VELOCITY_RAND * 2, y: 0 }, color, delay: delays[arr.length], text: i === 0 ? number++ : null });
                 }
                 return arr;
             }, [])
@@ -63,12 +61,14 @@ class Simulation extends Component {
         return [
             <div ref={this.screen} id="ballHolder">
                 {_.map(this.state.balls, (ball, i) => {
-                    if (ball.position.x < -50 || ball.position.y < -50 || ball.position.y > AREA_SIZE.y + 50 || ball.position.x > AREA_SIZE.x + 50) {
+                    const mult = this.screen.current.offsetWidth / 1300;
+                    const position = {x: ball.position.x * mult + this.screen.current.offsetWidth / 2, y: ball.position.y * mult};
+                    if (position.x < -50 || position.y < -50 || position.y > this.screen.current.offsetHeight + 50 || position.x > this.screen.current.offsetWidth + 50) {
                         return null;
                     }
                     return <div key={i} className={"ball " + ball.color} style={{
-                        left: ball.position.x,
-                        top: ball.position.y
+                        left: position.x,
+                        top: position.y
                     }} ></div>
                 })}
             </div>,
