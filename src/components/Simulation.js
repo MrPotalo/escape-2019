@@ -17,10 +17,12 @@ class Simulation extends Component {
     constructor(props) {
         super(props);
         
-        this.state = this.getStartState();
+        this.screen = React.createRef();
+        this.state = { balls: [] };
     }
 
     getStartState = () => {
+        console.log(this.screen);
         const totalBalls = _.reduce(this.props.balls, (count, curr) => {
             return count + curr;
         });
@@ -31,14 +33,15 @@ class Simulation extends Component {
             time: 0,
             balls: _.reduce(this.props.balls, (arr, count, color) => {
                 for (let i = 0; i < count; i++) {
-                    arr.push({ position: { x: START_OFFSET.x + (Math.random() - 0.5) * START_RAND * 2, y: START_OFFSET.y }, velocity: { x: (Math.random() - 0.5) * VELOCITY_RAND * 2, y: 0 }, color, delay: delays[arr.length], text: i === 0 ? number++ : null });
+                    arr.push({ position: { x: (this.screen.current.offsetWidth / 2 - 25) + (Math.random() - 0.5) * START_RAND * 2, y: START_OFFSET.y }, velocity: { x: (Math.random() - 0.5) * VELOCITY_RAND * 2, y: 0 }, color, delay: delays[arr.length], text: i === 0 ? number++ : null });
                 }
                 return arr;
             }, [])
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        this.setState(this.getStartState());
         this.timer = setInterval(() => {
             this.setState((oldState) => {
                 let newState = _.clone(oldState);
@@ -58,7 +61,7 @@ class Simulation extends Component {
 
     render() {
         return [
-            <div id="ballHolder">
+            <div ref={this.screen} id="ballHolder">
                 {_.map(this.state.balls, (ball, i) => {
                     if (ball.position.x < -50 || ball.position.y < -50 || ball.position.y > AREA_SIZE.y + 50 || ball.position.x > AREA_SIZE.x + 50) {
                         return null;
